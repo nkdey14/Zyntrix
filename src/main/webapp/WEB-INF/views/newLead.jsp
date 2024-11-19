@@ -52,7 +52,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 form-container">
                     <h2 class="text-center mb-4">Lead Registration</h2>
-                    <form action="saveLead" method="post">
+                    <form action="saveLead" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="firstName">First Name</label>
                             <input type="text" class="form-control" id="firstName" name="firstName" required>
@@ -86,8 +86,13 @@
                             <label for="city">City</label>
                             <input type="text" class="form-control" id="city" name="city" required>
                         </div>
-                        
-                        <div class="d-flex justify-content-between">
+
+						<div class="form-group">
+							<label for="welcomeAttachment">Welcome Attachment:</label> 
+							<input type="file" name="welcomeAttachment">
+						</div>
+
+						<div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary">Save</button>
                             <button type="reset" class="btn btn-secondary">Clear</button>
                         </div>

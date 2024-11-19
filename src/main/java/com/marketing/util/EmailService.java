@@ -1,6 +1,8 @@
 package com.marketing.util;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface EmailService {
 
-	public void sendEmail(String to, String subject, String message);
+	public void sendEmailWithAttachment(String to, String subject, String body, MultipartFile attachment);
 }

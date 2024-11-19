@@ -1,28 +1,34 @@
 package com.marketing.util;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+//import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 @Component
-public class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl {
 	
 	@Autowired
     private JavaMailSender mailSender;
 
-	@Override
-	public void sendEmail(String to, String subject, String message) {
-		
-		SimpleMailMessage msg = new SimpleMailMessage();
-		
-		msg.setTo(to);
-		msg.setSubject(subject);
-		msg.setText(message);
-		msg.setFrom("im.pandey264@gmail.com");
-		
-		mailSender.send(msg);
+	public void sendEmailWithAttachment(String to, String subject, String body, MultipartFile attachment) throws Exception {
+	    MimeMessage message = mailSender.createMimeMessage();
+	    MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+	    helper.setTo(to);
+	    helper.setSubject(subject);
+	    helper.setText(body, true);
+	    helper.setFrom("your-email@gmail.com");
+
+	    if (attachment != null) {
+	        helper.addAttachment(attachment.getOriginalFilename(), attachment);
+	    }
+
+	    mailSender.send(message);
 	}
 
 }
