@@ -12,4 +12,6 @@ public interface LeadService {
 
 	public void deleteLeadDetails(long id);
 
+	public Lead getLeadInfo(long id);
+
 }

@@ -76,7 +76,7 @@ public class LeadController {
 	        e.printStackTrace();
 	    }
 
-	    model.addAttribute("lead", l);
+//	    model.addAttribute("lead", l);
 	    model.addAttribute("msg", "Lead Saved Successfully!!");
 
 	    List<Lead> leads = leadService.getAllLeads();
@@ -119,5 +119,38 @@ public class LeadController {
 		List<Lead> leads = leadService.getAllLeads();
 		model.addAttribute("leads", leads);
 		return "listLeads";
+	}
+	
+	@RequestMapping("/updateLead")
+	public String getLeadDetails(@RequestParam("id") long id, Model model) {
+		
+		Lead lead = leadService.getLeadInfo(id);
+		
+		model.addAttribute("lead", lead);
+		
+		return "updateLead";
+	}
+	
+	@RequestMapping("/updateLeadData")
+	public String updateLeadInfo(LeadDto dto, Model model) {
+		
+		Lead l = new Lead();
+		
+		l.setId(dto.getId());
+		l.setFirstName(dto.getFirstName());
+		l.setLastName(dto.getLastName());
+		l.setGender(dto.getGender());
+		l.setEmail(dto.getEmail());
+		l.setMobile(dto.getMobile());
+		l.setCity(dto.getCity());
+		
+		leadService.saveLeadInfo(l);
+		
+		model.addAttribute("msg","Lead Details Updated Successfully!!");
+		
+		List<Lead> leads = leadService.getAllLeads();
+		model.addAttribute("leads", leads);
+		return "listLeads";
+
 	}
 }
