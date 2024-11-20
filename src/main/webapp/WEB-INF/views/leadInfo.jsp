@@ -10,11 +10,16 @@
         /* Background color for the whole page */
         body {
             background-color: #f0f2f5; /* Light background color */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Center container for lead details */
+        .content-container {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
+            padding: 1rem;
         }
 
         /* Container for lead details */
@@ -27,21 +32,15 @@
             max-width: 600px;
         }
 
-        /* Styling for message */
-        .message {
-            color: blue;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
         /* Styling for table-like layout without borders */
         .details-table {
             width: 100%;
         }
+
         .details-table td {
             padding: 0.5rem;
         }
+
         .label {
             font-weight: bold;
             color: #555;
@@ -56,15 +55,13 @@
     </style>
 </head>
 <body>
-    <div class="menu-container">
-        <%@ include file="menu.jsp" %>
-    </div>
-    <div class="container mt-5 d-flex justify-content-center align-items-center">
+    <!-- Include the menu directly -->
+    <%@ include file="menu.jsp" %>
+
+    <!-- Centered content -->
+    <div class="content-container">
         <div class="form-container">
             <h2 class="text-center mb-4">Lead Details</h2>
-            
-            <!-- Display message -->
-            <div class="message">${msg}</div>
 
             <!-- Lead details in a table format without borders -->
             <table class="details-table">
@@ -96,8 +93,8 @@
 
             <!-- Back button -->
             <div class="back-button">
-                <a href="newLead.jsp" class="btn btn-secondary">Back</a>
-            </div> 
+                <a href="listAllleads" class="btn btn-secondary">Back</a>
+            </div>
         </div>
     </div>
 </body>

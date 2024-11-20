@@ -62,12 +62,7 @@ td {
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Gender</th>
-						<th>Email ID</th>
-						<th>Mob No.</th>
-						<th>City</th>
+						<th>Full Name</th>
 						<th>Edit</th>
 						<th>Remove</th>
 						<th>Export</th>
@@ -76,12 +71,7 @@ td {
 				<tbody>
 					<c:forEach var="lead" items="${leads}">
 						<tr>
-							<td>${lead.firstName}</td>
-							<td>${lead.lastName}</td>
-							<td>${lead.gender}</td>
-							<td>${lead.email}</td>
-							<td>${lead.mobile}</td>
-							<td>${lead.city}</td>
+							<td><a href="leadInfo?id=${lead.id}">${lead.firstName} ${lead.lastName}</a></td>
 							<td><a href="updateLead?id=${lead.id}" class="text-primary"
 								title="Update Lead"> <i class="fas fa-pencil-alt"></i>
 							</a></td>

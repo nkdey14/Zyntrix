@@ -197,5 +197,15 @@ public class LeadController {
 	    // Close the document
 	    document.close();
 	}
+	
+	@RequestMapping("/leadInfo")
+	public String showLeadInfo(@RequestParam("id") long id, Model model) {
+		
+		Lead l = leadService.getLeadInfo(id);
+		
+		model.addAttribute("lead", l);
+		
+		return "leadInfo";
+	}
 
 }
