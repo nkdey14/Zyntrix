@@ -2,6 +2,8 @@ package com.marketing.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.marketing.dto.LeadDto;
 import com.marketing.entity.Lead;
-import com.marketing.repository.LeadRepository;
 import com.marketing.services.LeadService;
-import com.marketing.util.EmailService;
 import com.marketing.util.EmailServiceImpl;
 
 @Controller
@@ -34,6 +37,8 @@ public class LeadController {
 		
 		return "newLead";
 	}
+	
+	// Fetching All Leads Records from DB
 	
 	@RequestMapping("/listAllleads")
 	public String viewAllLeads(Model model) {
@@ -77,6 +82,7 @@ public class LeadController {
 	    }
 
 //	    model.addAttribute("lead", l);
+	    
 	    model.addAttribute("msg", "Lead Saved Successfully!!");
 
 	    List<Lead> leads = leadService.getAllLeads();
@@ -86,30 +92,31 @@ public class LeadController {
 
 	// Approach - 2 of Saving a New Record
 	
-//	@RequestMapping("/saveLead")
-//	public String saveLeadInfo(LeadDto dto, Model model) {
-//		
-//		Lead l = new Lead();
-//		
-//		l.setId(dto.getId());
-//		l.setFirstName(dto.getFirstName());
-//		l.setLastName(dto.getLastName());
-//		l.setGender(dto.getGender());
-//		l.setEmail(dto.getEmail());
-//		l.setMobile(dto.getMobile());
-//		l.setCity(dto.getCity());
-//		
-//		leadService.saveLeadInfo(l);
-//		
-//		model.addAttribute("lead", l);
-//		
-//		model.addAttribute("msg","Lead Saved Successfully!!");
-//		
-//		List<Lead> leads = leadService.getAllLeads();
-//		model.addAttribute("leads", leads);
-//		return "listLeads";
-//	}
-
+/*	@RequestMapping("/saveLead")
+	public String saveLeadInfo(LeadDto dto, Model model) {
+		
+		Lead l = new Lead();
+		
+		l.setId(dto.getId());
+		l.setFirstName(dto.getFirstName());
+		l.setLastName(dto.getLastName());
+		l.setGender(dto.getGender());
+		l.setEmail(dto.getEmail());
+		l.setMobile(dto.getMobile());
+		l.setCity(dto.getCity());
+		
+		leadService.saveLeadInfo(l);
+		
+		model.addAttribute("lead", l);
+		
+		model.addAttribute("msg","Lead Saved Successfully!!");
+		
+		List<Lead> leads = leadService.getAllLeads();
+		model.addAttribute("leads", leads);
+		return "listLeads";
+	}
+*/
+	// Feature to Delete Lead Info
 	
 	@RequestMapping("/deleteLead")
 	public String deleteLeadInfo(@RequestParam("id") long id, Model model) {
@@ -121,6 +128,8 @@ public class LeadController {
 		return "listLeads";
 	}
 	
+	// Fetching Lead Info
+	
 	@RequestMapping("/updateLead")
 	public String getLeadDetails(@RequestParam("id") long id, Model model) {
 		
@@ -130,6 +139,8 @@ public class LeadController {
 		
 		return "updateLead";
 	}
+	
+	// Updating Lead Details
 	
 	@RequestMapping("/updateLeadData")
 	public String updateLeadInfo(LeadDto dto, Model model) {
@@ -153,4 +164,38 @@ public class LeadController {
 		return "listLeads";
 
 	}
+	
+	// Integrated iText Pdf API 
+	
+	@RequestMapping("/exportToPdf")
+	public void exportLeadToPdf(@RequestParam("id") long id, HttpServletResponse response) throws Exception {
+	
+	    Lead lead = leadService.getLeadInfo(id);
+
+	    // Set response properties for PDF download
+	    response.setContentType("application/pdf");
+	    response.setHeader("Content-Disposition", "attachment; filename=lead_" + lead.getFirstName() + "_" + lead.getLastName() + ".pdf");
+
+	    // Create a document instance
+	    Document document = new Document();
+
+	    // Create PDF writer instance
+	    PdfWriter.getInstance(document, response.getOutputStream());
+
+	    // Open the document
+	    document.open();
+
+	    // Add content to the PDF
+	    document.add(new Paragraph("==================== Lead Details ====================="));
+	    document.add(new Paragraph("First Name: " + lead.getFirstName()));
+	    document.add(new Paragraph("Last Name: " + lead.getLastName()));
+	    document.add(new Paragraph("Gender: " + lead.getGender()));
+	    document.add(new Paragraph("Email: " + lead.getEmail()));
+	    document.add(new Paragraph("Mobile: " + lead.getMobile()));
+	    document.add(new Paragraph("City: " + lead.getCity()));
+
+	    // Close the document
+	    document.close();
+	}
+
 }

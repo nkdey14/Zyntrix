@@ -70,6 +70,7 @@ td {
 						<th>City</th>
 						<th>Edit</th>
 						<th>Remove</th>
+						<th>Export</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -86,6 +87,10 @@ td {
 							</a></td>
 							<td><a href="deleteLead?id=${lead.id}" class="text-danger"
 								title="Delete Lead"> <i class="fas fa-trash-alt"></i>
+							</a></td>
+							<td><a href="exportToPdf?id=${lead.id}"
+								class="btn btn-success btn-sm" title="Export to PDF"> <i
+									class="fas fa-file-pdf"></i> Export to PDF
 							</a></td>
 						</tr>
 					</c:forEach>
