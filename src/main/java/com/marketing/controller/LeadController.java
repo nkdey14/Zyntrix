@@ -40,7 +40,7 @@ public class LeadController {
 		return "newLead";
 	}
 	
-	// Fetching All Leads Records from DB
+	// Fetching All Leads Data from DB
 	
 	 // Fetching paginated Leads Records from DB
     @RequestMapping("/listAllleads")
@@ -206,6 +206,8 @@ public class LeadController {
 	    // Close the document
 	    document.close();
 	}
+	
+	// Fetching Each Lead Information
 	
 	@RequestMapping("/leadInfo")
 	public String showLeadInfo(@RequestParam("id") long id, Model model) {
