@@ -3,6 +3,9 @@ package com.marketing.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.marketing.entity.Lead;
@@ -36,5 +39,11 @@ public class LeadServiceImpl implements LeadService {
 		return leadRepo.findById(id).get();
 		
 	}
+
+	@Override
+	public Page<Lead> getAllLeadsPaginated(PageRequest pageRequest) {
+		
+        return leadRepo.findAll(pageRequest);
+    }
 
 }

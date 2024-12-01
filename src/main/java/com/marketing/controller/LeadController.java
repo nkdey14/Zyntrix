@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,13 +42,20 @@ public class LeadController {
 	
 	// Fetching All Leads Records from DB
 	
-	@RequestMapping("/listAllleads")
-	public String viewAllLeads(Model model) {
-		
-		List<Lead> leads = leadService.getAllLeads();
-		model.addAttribute("leads", leads);
-		return "listLeads";
-	}
+	 // Fetching paginated Leads Records from DB
+    @RequestMapping("/listAllleads")
+    public String viewAllLeads(
+            @RequestParam(defaultValue = "0") int page, 
+            @RequestParam(defaultValue = "4") int size, 
+            Model model) {
+        // Fetch paginated leads
+        Page<Lead> leadPage = leadService.getAllLeadsPaginated(PageRequest.of(page, size));
+        model.addAttribute("leads", leadPage.getContent()); // Leads for the current page
+        model.addAttribute("currentPage", leadPage.getNumber()); // Current page number
+        model.addAttribute("totalPages", leadPage.getTotalPages()); // Total pages
+
+        return "listLeads";
+    }
 	
 	// Approach - 1 of Saving a New Record
 	
